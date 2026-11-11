@@ -1,0 +1,66 @@
+# Услуги МФЦ: отдельный репозиторий и отдельный запуск.
+# Требуется запущенное ядро (сеть platform, Consul). Портов на хосте нет: интерфейс открывает шлюз по адресу /mfc/
+# (он находит сервис в Consul по ui_url, проверяет сессию кабинета и роль svc-mfc), вход — по билету из keycloak-auth-service.
+name: mfc
+
+services:
+  mfc:
+    build:
+      context: .
+      target: runtime
+      args:
+        WITH_SOAP: "1"
+    image: mfc:${MFC_VERSION:-0.1.0}
+    container_name: mfc
+    restart: unless-stopped
+    environment:
+      # общий секрет с keycloak-auth-service (MFC_PORTAL_SSO_SECRET в его .env): подпись билета входа, не короче 32 байт
+      MFC_PORTAL_SSO_SECRET: ${MFC_PORTAL_SSO_SECRET:?MFC_PORTAL_SSO_SECRET is required (openssl rand -base64 48)}
+      # обязателен и должен быть https (сервис не запустится без него); на стенде значение подставляет docker-compose.override.yml
+      MFC_PUBLIC_URL: ${MFC_PUBLIC_URL:-}
+      MFC_ONEC_BASE_URL: ${MFC_ONEC_BASE_URL:-}
+      MFC_ONEC_TRANSPORT: ${MFC_ONEC_TRANSPORT:-http}
+      MFC_ONEC_WSDL: ${MFC_ONEC_WSDL:-}
+      MFC_ONEC_TIMEOUT: ${MFC_ONEC_TIMEOUT:-20}
+      MFC_ONEC_MAX_CONCURRENT: ${MFC_ONEC_MAX_CONCURRENT:-5}
+      MFC_ONEC_CA_FILE: ${MFC_ONEC_CA_FILE:-}
+      MFC_ONEC_LOGIN: ${MFC_ONEC_LOGIN:-}
+      MFC_ONEC_USER: ${MFC_ONEC_USER:-}
+      MFC_ONEC_PASSWORD: ${MFC_ONEC_PASSWORD:-}
+      MFC_EGRUL_PROVIDER: ${MFC_EGRUL_PROVIDER:-demo}
+      MFC_DADATA_TOKEN: ${MFC_DADATA_TOKEN:-}
+      MFC_ALLOW_HTTP: ${MFC_ALLOW_HTTP:-false}
+    volumes:
+      - mfc_data:/data
+    networks: [platform]
+
+  # Регистрация в Consul (один раз при запуске): после этого «Услуги МФЦ» появляются в списке сервисов кабинета,
+  # сервис авторизации создаёт роль svc-mfc, а шлюз начинает отдавать интерфейс по /mfc/.
+  consul-register:
+    image: curlimages/curl:8.10.1
+    restart: "no"
+    depends_on:
+      mfc:
+        condition: service_started
+    networks: [platform]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        for i in $$(seq 1 30); do
+          curl -fsS -X PUT http://consul:8500/v1/agent/service/register -d '{
+            "ID": "mfc", "Name": "mfc", "Address": "mfc", "Port": 8091,
+            "Meta": {"title": "Услуги МФЦ", "description": "Справки и заявления студента", "title_en": "Student services", "description_en": "Certificates and applications",
+                     "ui_url": "/mfc/", "exchange_url": "/mfc/portal-exchange", "order": "20"},
+            "Check": {"HTTP": "http://mfc:8091/mfc/health", "Interval": "30s", "Timeout": "5s", "DeregisterCriticalServiceAfter": "10m"}
+          }' && echo "mfc зарегистрирован в Consul" && exit 0
+          sleep 2
+        done
+        echo "Consul недоступен" >&2; exit 1
+
+networks:
+  platform:
+    external: true
+    name: platform
+
+volumes:
+  mfc_data:

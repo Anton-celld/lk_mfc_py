@@ -1,0 +1,50 @@
+{
+  "host": "127.0.0.1",
+  "port": 8090,
+  "public_url": "https://lk-mfc.timacad.ru",
+  "base_path": "",
+  "data_dir": "data",
+  "demo": false,
+  "auth": {
+    "providers": "onec_check",
+    "session_days": 7,
+    "session_idle_hours": 12,
+    "import_every_min": 15
+  },
+  "onec": {
+    "transport": "http",
+    "base_url": "https://1c.example.ru/univer/hs/mfc/",
+    "wsdl": "",
+    "user": "",
+    "password": "",
+    "timeout": 20,
+    "sync_every_sec": 60,
+    "ca_file": "",
+    "paths": {
+      "auth_check": "auth/check",
+      "auth_token": "auth/token",
+      "accounts": "accounts",
+      "person": "persons/{id}",
+      "prikazy": "persons/{id}/orders",
+      "signers": "signers",
+      "request_create": "requests",
+      "request_update": "requests/{id}",
+      "request_cancel": "requests/{id}/cancel",
+      "requests_list": "requests",
+      "request_document": "requests/{id}/document",
+      "request_signature": "requests/{id}/signature"
+    },
+    "soap": {"max_concurrent": 5, "operations": {}},
+    "status_map": {}
+  },
+  "egrul": {
+    "provider": "dadata",
+    "dadata_token": "КЛЮЧ_DADATA",
+    "cache_days": 30
+  },
+  "uploads": {
+    "max_files": 10,
+    "max_mb": 10
+  },
+  "assistant_url": ""
+}

@@ -1,0 +1,5 @@
+-r requirements.txt
+# Изолированная SOAP-реализация: асинхронные операции через zeep,
+# WSDL загружается вне основного event loop.
+zeep[async]>=4.3.3,<5
+httpx>=0.27,<1

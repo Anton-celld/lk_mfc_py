@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Услуги МФЦ (Бета)</title>
+<script src="static/theme.js?v=1"></script>
+<link rel="stylesheet" href="static/app.css?v=20261029m">
+</head>
+<body>
+<div id="vLogin" hidden></div>
+
+<div id="vApp" hidden>
+  <header class="top"><div class="top-in">
+    <a class="brand" href="./"><span class="mark">МФЦ</span><span class="brand-t"><b>Личный кабинет</b></span></a>
+    <div class="me">
+      <div class="who"><b id="meName"></b><span id="meLevel"></span></div>
+      <button class="ico" id="bell" aria-label="Уведомления"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><i id="bellN" hidden></i></button>
+      <button class="ico" id="logout" aria-label="Выйти" title="Выйти"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button>
+    </div>
+  </div></header>
+  <main class="wrap">
+    <div class="prog" id="progBox"><label for="prog">Зачётная книжка</label><select id="prog"></select></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab-new" data-tab="new" role="tab" aria-selected="false" title="Подать заявку на справку, выписку или заявление"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Подать заявку</button>
+      <button data-tab="orders" role="tab" aria-selected="true">Мои заявки<em id="needN" hidden></em></button>
+    </nav>
+    <section id="vOrders"></section>
+    <section id="vNew" hidden></section>
+  </main>
+  <footer class="foot"><div class="foot-in">
+    <button class="btn btn-go" id="askBtn" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Есть вопрос</button>
+    <div class="foot-c"><b>Студенческий МФЦ</b>
+      <a href="mailto:mfts@rgau-msha.ru">mfts@rgau-msha.ru</a>
+      <a href="tel:+74999771433">+7 (499) 977-14-33</a></div>
+  </div></footer>
+</div>
+<div class="sheet-bg" id="sheet" hidden><div class="sheet" id="sheetBody" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="static/lk.js?v=20261029h"></script>
+</body>
+</html>

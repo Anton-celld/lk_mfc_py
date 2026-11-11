@@ -1,0 +1,11 @@
+{
+  "host": "127.0.0.1",
+  "port": 8091,
+  "public_url": "https://portal.example.edu/mfc-beta/",
+  "base_path": "/mfc-beta",
+  "data_dir": "/opt/lk_mfc_beta/data",
+  "demo": false,
+  "portal": {"enabled": true, "issuer": "student-portal", "audience": "mfc-beta"},
+  "auth": {"providers": "onec_check"},
+  "onec": {"transport": "http", "base_url": "", "wsdl": "", "user": "", "password": "", "soap": {"max_concurrent": 5, "operations": {}}, "status_map": {}}
+}

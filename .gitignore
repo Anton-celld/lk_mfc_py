@@ -1,0 +1,17 @@
+data/
+config.json
+__pycache__/
+*.pyc
+shots/
+.env
+portal_config.json
+.pytest_cache/
+
+# Local settings and sensitive data
+*.pem
+*.key
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store
+static/fonts/

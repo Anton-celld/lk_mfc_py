@@ -1,0 +1,7 @@
+# Локальная разработка (подхватывается автоматически: docker compose up). Для production: docker compose -f docker-compose.yml up -d
+# Кабинет на стенде открыт по http, поэтому HTTPS не требуется, а cookie сессии не помечается Secure.
+services:
+  mfc:
+    environment:
+      MFC_ALLOW_HTTP: "true"
+      MFC_PUBLIC_URL: ${MFC_PUBLIC_URL:-http://localhost:5173/mfc/}

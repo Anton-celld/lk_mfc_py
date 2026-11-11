@@ -1,0 +1,10 @@
+data/
+config.json
+portal_config.json
+.env
+__pycache__/
+*.pyc
+shots/
+.git
+.pytest_cache/
+dev/
